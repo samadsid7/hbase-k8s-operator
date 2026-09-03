@@ -36,7 +36,7 @@
 
     # Refresh the  NN include-list so this DN is allowed to register.
     echo "Refreshing namenode include-list"
-    $HADOOP_HOME/bin/hdfs dfsadmin -refreshNodes || true
+    $HADOOP_HOME/bin/hdfs dfsadmin -refreshNode "$HOSTNAME" || true
 
   cpuLimit: "2"
   memoryLimit: "1Gi"
