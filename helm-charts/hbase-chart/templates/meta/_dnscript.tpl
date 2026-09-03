@@ -7,6 +7,7 @@ export HADOOP_CONF_DIR=$1
 export HADOOP_HOME=$2
 export USER=$(whoami)
 export HADOOP_LOG_FILE=$HADOOP_LOG_DIR/hadoop-$USER-datanode-$(hostname).log
+HOSTNAME=$(hostname -f)
 
 mkdir -p $HADOOP_LOG_DIR
 touch $HADOOP_LOG_FILE
@@ -23,7 +24,7 @@ trap shutdown SIGTERM
 
 # Refresh the  NN include-list so this DN is allowed to register.
 echo "Refreshing namenode include-list"
-$HADOOP_HOME/bin/hdfs dfsadmin -refreshNodes || true
+$HADOOP_HOME/bin/hdfs dfsadmin -refreshNode "$HOSTNAME" || true
 
 exec $HADOOP_HOME/bin/hdfs datanode 2>&1 | tee -a $HADOOP_LOG_FILE &
 PID=$!
